@@ -10,7 +10,8 @@
         <script type="importmap">
             {
                 "imports": {
-                    "three": "https://unpkg.com/three/build/three.module.js"
+                    "three": "https://unpkg.com/three/build/three.module.js",
+                    "gltfloader": "https://unpkg.com/three/examples/jsm/loaders/GLTFLoader.js"
                 }
             }
         </script>
@@ -23,6 +24,7 @@
 
         <script type="module">
             import * as THREE from 'three';
+            import { GLTFLoader } from 'gltfloader';
 
             // init
 
@@ -31,11 +33,28 @@
 
             const scene = new THREE.Scene();
 
+            const loader = new GLTFLoader();
+
+            loader.load( './Dinosaur.glb', function ( gltf ) {
+
+            // loader.load( 'https://juggernaut888.github.io/3dnft-experiment/Dinosaur.glb', function ( gltf ) {
+
+                console.log(11111, gltf)
+                scene.add( gltf.scene );
+
+            }, undefined, function ( error ) {
+
+                console.log(12222)
+                console.error( error );
+
+            } );            
+
+
             const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
             const material = new THREE.MeshNormalMaterial();
 
             const mesh = new THREE.Mesh( geometry, material );
-            scene.add( mesh );
+            // scene.add( mesh );
 
             const renderer = new THREE.WebGLRenderer( { antialias: true } );
             renderer.setSize( window.innerWidth, window.innerHeight );
@@ -46,8 +65,8 @@
 
             function animation( time ) {
 
-                mesh.rotation.x = time / 2000;
-                mesh.rotation.y = time / 1000;
+                // mesh.rotation.x = time / 2000;
+                // mesh.rotation.y = time / 1000;
 
                 renderer.render( scene, camera );
 
